@@ -3,7 +3,7 @@ variable "profile" {
 }
 
 variable "region" {
-  default = "ap-southeast-1"
+  default = "eu-central-1"
 }
 
 variable "instance" {
@@ -15,11 +15,11 @@ variable "instance_count" {
 }
 
 variable "public_key" {
-  default = "~/.ssh/MyKeyPair.pub"
+  default = "~/.ssh/id_rsa.pub"
 }
 
 variable "private_key" {
-  default = "~/.ssh/MyKeyPair.pem"
+  default = "~/.ssh/id_rsa"
 }
 
 variable "ansible_user" {
@@ -33,9 +33,10 @@ variable "amis" {
     ap-northeast-1 = "ami-b25d44b3" # Asia Pacific (Tokyo)
     ap-southeast-1 = "ami-aeb49ffc" # Asia Pacific (Singapore)
     ap-southeast-2 = "ami-6b770351" # Asia Pacific (Sydney)
+    eu-central-1 = "ami-0ac05733838eabc06" # Europe (Frankurt)
   }
 }
 
 variable "ami" {
-  default = "ami-0c5199d385b432989"
+  default = "ami-0ac05733838eabc06"
 }
