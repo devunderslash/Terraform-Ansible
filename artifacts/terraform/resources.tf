@@ -23,7 +23,7 @@ resource "aws_instance" "jenkins-ci" {
   #ami = "${lookup(var.amis,var.region)}"
   ami           = var.ami
   instance_type = var.instance
-  key_name      = aws_key_pair.demo_key.key_name
+  key_name      = aws_key_pair.mykey.key_name
 
   vpc_security_group_ids = [
     aws_security_group.web.id,
@@ -102,7 +102,7 @@ resource "aws_instance" "gitLab" {
   #ami = "${lookup(var.amis,var.region)}"
   ami           = var.ami
   instance_type = var.instance
-  key_name      = aws_key_pair.demo_key.key_name
+  key_name      = aws_key_pair.mykey.key_name
 
   vpc_security_group_ids = [
     aws_security_group.web.id,
