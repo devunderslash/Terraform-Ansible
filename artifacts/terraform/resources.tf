@@ -1,5 +1,5 @@
-resource "aws_key_pair" "demo_key" {
-  key_name   = "MyKeyPair"
+resource "aws_key_pair" "mykey" {
+  key_name   = "andreas-ubuntu"
   public_key = file(var.public_key)
 }
 
