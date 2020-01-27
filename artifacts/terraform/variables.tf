@@ -27,16 +27,17 @@ variable "ansible_user" {
 }
 
 variable "amis" {
-  type = "map"
+  type = map(string)
 
   default = {
-    ap-northeast-1 = "ami-b25d44b3" # Asia Pacific (Tokyo)
-    ap-southeast-1 = "ami-aeb49ffc" # Asia Pacific (Singapore)
-    ap-southeast-2 = "ami-6b770351" # Asia Pacific (Sydney)
-    eu-central-1 = "ami-0ac05733838eabc06" # Europe (Frankurt)
+    ap-northeast-1 = "ami-b25d44b3"          # Asia Pacific (Tokyo)
+    ap-southeast-1 = "ami-aeb49ffc"          # Asia Pacific (Singapore)
+    ap-southeast-2 = "ami-6b770351"          # Asia Pacific (Sydney)
+    eu-central-1   = "ami-0ac05733838eabc06" # Europe (Frankurt)
   }
 }
 
 variable "ami" {
   default = "ami-0ac05733838eabc06"
 }
+
