@@ -15,11 +15,11 @@ variable "instance_count" {
 }
 
 variable "public_key" {
-  default = "~/.ssh/id_rsa.pub"
+  default = "~/.ssh/demo_key.pub"
 }
 
 variable "private_key" {
-  default = "~/.ssh/id_rsa"
+  default = "~/.ssh/demo_key"
 }
 
 variable "ansible_user" {
