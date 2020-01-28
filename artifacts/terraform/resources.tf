@@ -52,13 +52,13 @@ resource "aws_instance" "jenkins-ci" {
   #user_data = "${file("../templates/install_jenkins.sh")}"
 
   # Ansible requires Python to be installed on the remote machine as well as the local machine.
-  # Ansible requires Python to be installed on the remote machine as well as the local machine.
   provisioner "remote-exec" {
-    inline = ["sudo apt-get -qq install python -y"]
+    inline = [
+        "sudo apt-get -qq update",
+        "sudo apt-get -qq install python -y"
+    ]
   }
 
-  # This is where we configure the instance with ansible-playbook
-  # Jenkins requires Java to be installed 
   # This is where we configure the instance with ansible-playbook
   # Jenkins requires Java to be installed 
   provisioner "local-exec" {
@@ -74,7 +74,6 @@ EOT
 
   }
 
-  # This is where we configure the instance with ansible-playbook
   # This is where we configure the instance with ansible-playbook
   provisioner "local-exec" {
     command = <<EOT
@@ -131,12 +130,13 @@ resource "aws_instance" "gitLab" {
   #user_data = "${file("../templates/install_gitLab.sh")}"
 
   # Ansible requires Python to be installed on the remote machine as well as the local machine.
-  # Ansible requires Python to be installed on the remote machine as well as the local machine.
   provisioner "remote-exec" {
-    inline = ["sudo apt-get -qq install python -y"]
+    inline = [
+        "sudo apt-get -qq update",
+        "sudo apt-get -qq install python -y"
+    ]
   }
 
-  # This is where we configure the instance with ansible-playbook
   # This is where we configure the instance with ansible-playbook
   provisioner "local-exec" {
     command = <<EOT
