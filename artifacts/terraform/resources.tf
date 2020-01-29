@@ -54,11 +54,12 @@ resource "aws_instance" "jenkins-ci" {
   # Ansible requires Python to be installed on the remote machine as well as the local machine.
   provisioner "remote-exec" {
     inline = [
+        "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
         "sudo apt-get -qq update",
         "sudo apt-get -qq install python -y"
     ]
   }
-
+/* Remove ansible section
   # This is where we configure the instance with ansible-playbook
   # Jenkins requires Java to be installed 
   provisioner "local-exec" {
@@ -87,7 +88,7 @@ EOT
 EOT
 
   }
-
+*/
   tags = {
     Name     = "jenkins-ci-${count.index + 1}"
     Batch    = "7AM"
@@ -132,11 +133,12 @@ resource "aws_instance" "gitLab" {
   # Ansible requires Python to be installed on the remote machine as well as the local machine.
   provisioner "remote-exec" {
     inline = [
+        "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
         "sudo apt-get -qq update",
         "sudo apt-get -qq install python -y"
     ]
   }
-
+/* Remove ansible section
   # This is where we configure the instance with ansible-playbook
   provisioner "local-exec" {
     command = <<EOT
@@ -150,7 +152,7 @@ resource "aws_instance" "gitLab" {
 EOT
 
   }
-
+*/
   tags = {
     Name     = "gitLab-${count.index + 1}"
     Batch    = "7AM"
