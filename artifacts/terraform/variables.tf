@@ -7,7 +7,7 @@ variable "region" {
 }
 
 variable "instance" {
-  default = "t2.micro"
+  default = "t2.medium"
 }
 
 variable "instance_count" {
