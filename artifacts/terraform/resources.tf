@@ -1,5 +1,5 @@
 resource "aws_key_pair" "demo_key" {
-  key_name   = "iac_demo_key"
+  key_name   = "TerraDemo"
   public_key = file(var.public_key)
 }
 
@@ -30,7 +30,7 @@ resource "aws_instance" "jenkins-ci" {
     aws_security_group.ssh.id,
     aws_security_group.egress-tls.id,
     aws_security_group.ping-ICMP.id,
-    aws_security_group.web_server.id,
+	  aws_security_group.web_server.id
   ]
 
   ebs_block_device {
@@ -59,38 +59,33 @@ resource "aws_instance" "jenkins-ci" {
         "sudo apt-get -qq install python -y"
     ]
   }
-/* Remove ansible section
-  # This is where we configure the instance with ansible-playbook
-  # Jenkins requires Java to be installed 
-  provisioner "local-exec" {
-    command = <<EOT
-      sleep 30;
-	  >java.ini;
-	  echo "[java]" | tee -a java.ini;
-	  echo "${aws_instance.jenkins-ci[0].public_ip} ansible_user=${var.ansible_user} ansible_ssh_private_key_file=${var.private_key}" | tee -a java.ini;
-      export ANSIBLE_HOST_KEY_CHECKING=False;
-	  ansible-playbook -u ${var.ansible_user} --private-key ${var.private_key} -i java.ini ../playbooks/install_java.yaml
-    
-EOT
 
-  }
+  # # This is where we configure the instance with ansible-playbook
+  # # Jenkins requires Java to be installed 
+  # provisioner "local-exec" {
+  #   command = <<EOT
+  #     sleep 30;
+	#   >java.ini;
+	#   echo "[java]" | tee -a java.ini;
+	#   echo "${aws_instance.jenkins-ci.public_ip} ansible_user=${var.ansible_user} ansible_ssh_private_key_file=${var.private_key}" | tee -a java.ini;
+  #     export ANSIBLE_HOST_KEY_CHECKING=False;
+	#   ansible-playbook -u ${var.ansible_user} --private-key ${var.private_key} -i java.ini ../playbooks/install_java.yaml
+  #   EOT
+  # }
+  # # This is where we configure the instance with ansible-playbook
+  # provisioner "local-exec" {
+  #   command = <<EOT
+  #     sleep 600;
+	#   >jenkins-ci.ini;
+	#   echo "[jenkins-ci]" | tee -a jenkins-ci.ini;
+	#   echo "${aws_instance.jenkins-ci.public_ip} ansible_user=${var.ansible_user} ansible_ssh_private_key_file=${var.private_key}" | tee -a jenkins-ci.ini;
+  #     export ANSIBLE_HOST_KEY_CHECKING=False;
+	#   ansible-playbook -u ${var.ansible_user} --private-key ${var.private_key} -i jenkins-ci.ini ../playbooks/install_jenkins.yaml
+  #   EOT
+  # }
 
-  # This is where we configure the instance with ansible-playbook
-  provisioner "local-exec" {
-    command = <<EOT
-      sleep 600;
-	  >jenkins-ci.ini;
-	  echo "[jenkins-ci]" | tee -a jenkins-ci.ini;
-	  echo "${aws_instance.jenkins-ci[0].public_ip} ansible_user=${var.ansible_user} ansible_ssh_private_key_file=${var.private_key}" | tee -a jenkins-ci.ini;
-      export ANSIBLE_HOST_KEY_CHECKING=False;
-	  ansible-playbook -u ${var.ansible_user} --private-key ${var.private_key} -i jenkins-ci.ini ../playbooks/install_jenkins.yaml
-    
-EOT
-
-  }
-*/
   tags = {
-    Name     = "jenkins-ci-${count.index + 1}"
+    Name     = "jenkins-ci-${count.index +1 }"
     Batch    = "7AM"
     Location = "Singapore"
   }
@@ -109,7 +104,7 @@ resource "aws_instance" "gitLab" {
     aws_security_group.ssh.id,
     aws_security_group.egress-tls.id,
     aws_security_group.ping-ICMP.id,
-    aws_security_group.web_server.id,
+	  aws_security_group.web_server.id
   ]
 
   ebs_block_device {
@@ -138,23 +133,21 @@ resource "aws_instance" "gitLab" {
         "sudo apt-get -qq install python -y"
     ]
   }
-/* Remove ansible section
-  # This is where we configure the instance with ansible-playbook
-  provisioner "local-exec" {
-    command = <<EOT
-      sleep 30;
-	  >gitLab.ini;
-	  echo "[gitLab]" | tee -a gitLab.ini;
-	  echo "${aws_instance.gitLab[0].public_ip} ansible_user=${var.ansible_user} ansible_ssh_private_key_file=${var.private_key}" | tee -a gitLab.ini;
-      export ANSIBLE_HOST_KEY_CHECKING=False;
-	  ansible-playbook -u ${var.ansible_user} --private-key ${var.private_key} -i gitLab.ini ../playbooks/install_gitlab.yaml
-    
-EOT
 
-  }
-*/
+  # # This is where we configure the instance with ansible-playbook
+  # provisioner "local-exec" {
+  #   command = <<EOT
+  #     sleep 30;
+	#   >gitLab.ini;
+	#   echo "[gitLab]" | tee -a gitLab.ini;
+	#   echo "${aws_instance.gitLab.public_ip} ansible_user=${var.ansible_user} ansible_ssh_private_key_file=${var.private_key}" | tee -a gitLab.ini;
+  #     export ANSIBLE_HOST_KEY_CHECKING=False;
+	#   ansible-playbook -u ${var.ansible_user} --private-key ${var.private_key} -i gitLab.ini ../playbooks/install_gitlab.yaml
+  #   EOT
+  # }
+
   tags = {
-    Name     = "gitLab-${count.index + 1}"
+    Name     = "gitLab-${count.index +1 }"
     Batch    = "7AM"
     Location = "Singapore"
   }
@@ -197,7 +190,6 @@ resource "aws_security_group" "ssh" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   tags = {
     Name = "ssh-example-default-vpc"
   }
@@ -238,6 +230,7 @@ resource "aws_security_group" "ping-ICMP" {
   tags = {
     Name = "ping-ICMP-example-default-vpc"
   }
+
 }
 
 # Allow the web app to receive requests on port 8080
@@ -253,7 +246,6 @@ resource "aws_security_group" "web_server" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   tags = {
     Name = "web_server-example-default-vpc"
   }
